@@ -85,19 +85,19 @@ int main(int argc ,char **argv)
 	ROS_INFO("The robot has started");
 	//initialize the general_time object for 60*30 sec~= 20 minutes
 	ros::Timer movement_timer=n.createTimer(ros::Duration(120*60),movement_timercallback);
-	ros::Timer map_timer=n.createTimer(ros::Duration(120*60),map_timercallback);
+	ros::Timer map_timer=n.createTimer(ros::Duration(1*60),map_timercallback);
 
 
 
 	//let the topic know that i want to subscribe /publish :
 	//subscribe
 	//call the callback function;
-	laser_scan_sub=n.subscribe("/scan",10,free_nav_drive_callback);
+	laser_scan_sub=n.subscribe("/scan",1,free_nav_drive_callback);
 
 
 	//publish for husky 	
 	//cmd_vel_pub=n.advertise<geometry_msgs::Twist>("husky_velocity_controller/cmd_vel",10);
-	cmd_vel_pub=n.advertise<geometry_msgs::Twist>("/cmd_vel",10);
+	cmd_vel_pub=n.advertise<geometry_msgs::Twist>("/cmd_vel",1);
 
 
 	ros::spin();
@@ -158,7 +158,7 @@ void free_nav_drive_callback(const sensor_msgs::LaserScan& laser_scan_msgs)
 	{
 
 		cmd_msg_for_publish.linear.x=0.3+linear;  //maybe 0.5
-		
+		//cmd_msg_for_publish.angular.z=angular; //for mvrobot
 		cmd_msg_for_publish.angular.z=10*angular; //*10 for husky robot
 		cmd_vel_pub.publish(cmd_msg_for_publish);
 		error_flag=true;
@@ -266,7 +266,7 @@ int read_image(char fname[], Image& image)
 		}
 
 	ifp.close();
-	ROS_INFO("The new  image is loaded");
+	ROS_INFO("Load the new image");
 
 
 	//
