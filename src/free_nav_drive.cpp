@@ -69,7 +69,7 @@ int val;
 bool type;
 
 
-char file_name[100]="/home/balkan/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map.pgm";
+char file_name[100]="~/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map.pgm";
 
 
 int main(int argc ,char **argv)
