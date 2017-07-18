@@ -69,7 +69,7 @@ int val;
 bool type;
 
 
-char file_name[100]="~/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map.pgm";
+char file_name[100]="/home/balkan/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map.pgm";
 
 
 int main(int argc ,char **argv)
@@ -95,7 +95,7 @@ int main(int argc ,char **argv)
 	laser_scan_sub=n.subscribe("/scan",1,free_nav_drive_callback);
 
 
-	//publish for husky 	
+	//publish for husky
 	//cmd_vel_pub=n.advertise<geometry_msgs::Twist>("husky_velocity_controller/cmd_vel",10);
 	cmd_vel_pub=n.advertise<geometry_msgs::Twist>("/cmd_vel",1);
 
@@ -114,7 +114,7 @@ void free_nav_drive_callback(const sensor_msgs::LaserScan& laser_scan_msgs)
 {
 
 	geometry_msgs::Twist cmd_msg_for_publish;
-	
+
 	float linear=0,angular=0;
 
 	for(unsigned int i =0 ;i<laser_scan_msgs.ranges.size(); i++)
@@ -136,13 +136,13 @@ void free_nav_drive_callback(const sensor_msgs::LaserScan& laser_scan_msgs)
 	{
 		linear=0.3;
 	}
-	
+
 	else if(linear<-0.3)
 	{
 		linear=-0.3;
 	}
-	
-	
+
+
 
 	if(stop_flag)
 	{
@@ -154,7 +154,7 @@ void free_nav_drive_callback(const sensor_msgs::LaserScan& laser_scan_msgs)
 
 	}
 	else
-	
+
 	{
 
 		cmd_msg_for_publish.linear.x=0.3+linear;  //maybe 0.5
@@ -315,18 +315,18 @@ int read_image_header(char fname[], int& rows, int& columns, int& gray_scale, bo
 		{
 			type = false;
 		}
-	
+
 	else if ( (header[0] == 80) && (header[1] == 54) )
 		{
 			type = true;
 		}
-	
+
 	else
 	{
 		cout << "Image " << fname << " is not PGM or PPM" << endl;
 		exit(1);
 	}
-	
+
 	ifp.getline(header,100,'\n');
 
 	while(header[0]=='#')
@@ -344,7 +344,3 @@ int read_image_header(char fname[], int& rows, int& columns, int& gray_scale, bo
 
 	 return(1);
 }
-
-
-
-
