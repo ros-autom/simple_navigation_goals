@@ -4,7 +4,7 @@ project(simple_navigation_goals)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-
+set(CMAKE_CXX_FLAGS "-O1 -funroll-loops -fno-elide-constructors -march=native -flto ${CMAKE_CXX_FLAGS} ")
 find_package(catkin REQUIRED COMPONENTS
   actionlib
   move_base_msgs
@@ -203,7 +203,8 @@ target_link_libraries(2d_nav_goals_2d_pose ${catkin_LIBRARIES})
 add_executable(free_nav_drive src/free_nav_drive.cpp)
 target_link_libraries(free_nav_drive ${catkin_LIBRARIES})
 
-
+add_executable(husky_goals src/husky_goals.cpp)
+target_link_libraries(husky_goals ${catkin_LIBRARIES})
 
 add_executable(mv_package_deliverance src/mv_package_deliverance.cpp)
 target_link_libraries(mv_package_deliverance ${catkin_LIBRARIES})
