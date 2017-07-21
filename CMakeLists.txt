@@ -203,8 +203,6 @@ target_link_libraries(2d_nav_goals_2d_pose ${catkin_LIBRARIES})
 add_executable(free_nav_drive src/free_nav_drive.cpp)
 target_link_libraries(free_nav_drive ${catkin_LIBRARIES})
 
-add_executable(husky_goals src/husky_goals.cpp)
-target_link_libraries(husky_goals ${catkin_LIBRARIES})
 
 add_executable(mv_package_deliverance src/mv_package_deliverance.cpp)
 target_link_libraries(mv_package_deliverance ${catkin_LIBRARIES})
