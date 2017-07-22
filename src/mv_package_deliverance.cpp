@@ -2,7 +2,7 @@
  * 2d_nav_goals_2d_pose_wh.cpp
  *
  *  Created on: Feb 4, 2017
- *      Author: Moisiadis Vasileios
+ *      Author:  Bill417
  */
 
 #include <ros/ros.h>
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
 
 	//subscribes to the /clicked_point to get the goal pose for the robot
 	pose_sub=n.subscribe("/clicked_point",100,pose_callback);
-	
+
 	ros::spin();
 
 	return 0;
@@ -116,7 +116,7 @@ void pose_callback(const geometry_msgs::PointStamped& pose_goal)
 
 	std::cout<<" Goal position: "<<std::endl;
 	std::cout<<goal.target_pose.pose.position.x<<" "<<goal.target_pose.pose.position.y<<std::endl;
-	
+
 	//Initiating move_base client
 	MoveBaseClient ac("move_base", true);
 
@@ -138,7 +138,7 @@ void pose_callback(const geometry_msgs::PointStamped& pose_goal)
 
 	if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 		ROS_INFO("the robot arrived to the goal position");
-	
+
 	else
 	{
 		ROS_INFO("The base failed for some reason");
@@ -161,7 +161,7 @@ void pose_callback(const geometry_msgs::PointStamped& pose_goal)
 
 	if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 		ROS_INFO("The robot arrived to the EXIT");
-	
+
 	else
 		ROS_INFO("The base failed for some reason");
 
@@ -177,15 +177,15 @@ void pose_callback(const geometry_msgs::PointStamped& pose_goal)
 	//sending the robot at the parking spot of the warehouse
 	ROS_INFO("Sending move base goal");
 	ac.sendGoal(goalD);
-	
+
 	ac.waitForResult();
 
 	if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
 		ROS_INFO("The robot arrived to the parking spot");
-	
+
 	else
 		ROS_INFO("The base failed for some reason");
-	
+
 	ROS_INFO("Wait for the goal to be published");
 
 }

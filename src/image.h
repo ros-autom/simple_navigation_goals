@@ -1,11 +1,3 @@
-/*
- * image.h
- *
- *  Created on: Jan 29, 2017
- *      Author: gra
- */
-
-
 
 #ifndef IMAGE_H
 
