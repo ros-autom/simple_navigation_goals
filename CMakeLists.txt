@@ -207,7 +207,4 @@ target_link_libraries(free_nav_drive ${catkin_LIBRARIES})
 add_executable(mv_package_deliverance src/mv_package_deliverance.cpp)
 target_link_libraries(mv_package_deliverance ${catkin_LIBRARIES})
 
-add_executable(pose_farm src/pose_farm.cpp)
-target_link_libraries(pose_farm ${catkin_LIBRARIES})
-
 
