@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   roscpp
   rospy
+  roslib
   std_msgs
   geometry_msgs
   tf

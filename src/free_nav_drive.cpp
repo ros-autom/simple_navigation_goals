@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include "ros/ros.h"
+#include "ros/package.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/Twist.h"
 #include "sensor_msgs/LaserScan.h"
@@ -20,6 +21,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "image.h"
+
 
 using namespace std;
 
@@ -69,7 +71,7 @@ int val;
 bool type;
 
 
-char file_name[100]="/home/balkan/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map.pgm";
+char file_name[100];
 
 
 int main(int argc ,char **argv)
@@ -85,7 +87,7 @@ int main(int argc ,char **argv)
 	ROS_INFO("The robot has started");
 	//initialize the general_time object for 60*30 sec~= 20 minutes
 	ros::Timer movement_timer=n.createTimer(ros::Duration(120*60),movement_timercallback);
-	ros::Timer map_timer=n.createTimer(ros::Duration(1*60),map_timercallback);
+	ros::Timer map_timer=n.createTimer(ros::Duration(1*30),map_timercallback);
 
 
 
@@ -179,17 +181,30 @@ void movement_timercallback(const ros::TimerEvent&)
 	}
 }
 
+char* convert(const std::string& str) {
+    char* result = new char[str.length()+1];
+    strcpy(result,str.c_str());
+    return result;
+}
+
 void map_timercallback(const ros::TimerEvent&)
 {
 	if(error_flag)
 	{
 		static int map_count=0; //counts the times that map changes
 
+		std::string path=ros::package::getPath("husky_navigation");
+		std::string command="rosrun map_server map_saver -f " + path + "/maps/test_map";
+		char* cstr = new char[command.length() +1]; 
+		strcpy(cstr, command.c_str());
 		//save the current map
-		std::system("rosrun map_server map_saver -f ~/ros/husky_kinetic/src/husky/husky_navigation/maps/test_map");
+		std::system(cstr);
+		
 		map_count++;
 		//open the current map
 		// read image header-confirm that the image is pgm p5
+		string filename = path+"/maps/test_map.pgm";
+		strncpy(file_name,filename.c_str(),sizeof(file_name));
 		read_image_header(file_name, rows, columns, gray_scale, type);
 
 		// allocate memory for the image array
