@@ -1,0 +1,6 @@
+string productName
+---
+int64 size
+int64[4] BoxCounter
+string[4] Boxes
+

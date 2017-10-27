@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(simple_navigation_goals)
 
+add_compile_options(-std=c++14)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -16,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   sensor_msgs
   nav_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -59,11 +61,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+  FILES
+  SendGoal.srv
+  SendGoalArray.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -73,10 +75,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   move_base_msgs#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -110,7 +112,15 @@ find_package(catkin REQUIRED COMPONENTS
 
 
 #catkin_package(INCLUDE_DIRS include LIBRARIES ${simple_navigation_goals} CATKIN_DEPENDS #actionlib sensor_msgs roscpp std_msgs geometry_msgs nav_msgs message_rutine tf) <-- error in #catkin_make
-catkin_package(INCLUDE_DIRS  LIBRARIES ${simple_navigation_goals} CATKIN_DEPENDS actionlib sensor_msgs roscpp rospy std_msgs geometry_msgs nav_msgs message_rutine tf)
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES get
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+#  DEPENDS system_lib
+)
+
+catkin_package( CATKIN_DEPENDS actionlib sensor_msgs roscpp rospy std_msgs geometry_msgs nav_msgs message_runtime tf)
 #  DEPENDS system_lib
 
 
@@ -122,7 +132,10 @@ catkin_package(INCLUDE_DIRS  LIBRARIES ${simple_navigation_goals} CATKIN_DEPENDS
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(
+	include
+	${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a C++ library
 # add_library(simple_navigation_goals
@@ -208,4 +221,8 @@ target_link_libraries(free_nav_drive ${catkin_LIBRARIES})
 add_executable(mv_package_deliverance src/mv_package_deliverance.cpp)
 target_link_libraries(mv_package_deliverance ${catkin_LIBRARIES})
 
+
+add_executable(box_picking src/box_picking.cpp)
+target_link_libraries(box_picking ${catkin_LIBRARIES})
+add_dependencies(box_picking simple_navigation_goals_gencpp)
 

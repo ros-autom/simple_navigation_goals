@@ -42,6 +42,7 @@ void free_nav_drive_callback(const sensor_msgs::LaserScan& laser_scan_msgs);
 
 
 
+
 //this timer counts the time that the robot moves
 void movement_timercallback(const ros::TimerEvent&);
 
